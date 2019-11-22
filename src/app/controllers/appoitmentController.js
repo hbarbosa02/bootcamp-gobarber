@@ -54,7 +54,7 @@ class AppoitmentController {
       return res.status(400).json({ error: 'Past dates are not permitted' });
 
     const checkAvailability = await Appointment.findOne({
-      were: { provider_id, canceled_at: null, date: hourStart },
+      where: { provider_id, canceled_at: null, date: hourStart },
     });
 
     if (checkAvailability)

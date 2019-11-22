@@ -33,9 +33,7 @@ class SessionController {
         name,
         email,
       },
-      token: jwt.sign({ id }, authConf.jwtKey, {
-        expiresIn: authConf.expiration,
-      }),
+      token: jwt.sign({ id }, authConf.jwtKey),
     });
   }
 }
