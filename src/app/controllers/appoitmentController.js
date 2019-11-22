@@ -1,8 +1,12 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore } from 'date-fns';
+import { startOfHour, parseISO, isBefore, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+
 import User from '../models/User';
 import File from '../models/File';
 import Appointment from '../models/Appointment';
+
+import Notification from '../schemas/Notification';
 
 class AppoitmentController {
   async index(req, res) {
@@ -39,6 +43,11 @@ class AppoitmentController {
 
     const { provider_id, date } = req.body;
 
+    if (provider_id === req.userId)
+      return status(401).json({
+        error: 'Cannot mark appointments with yourself',
+      });
+
     const isProvider = await User.findOne({
       where: { id: provider_id, provider: true },
     });
@@ -66,6 +75,16 @@ class AppoitmentController {
       date,
       provider_id,
       user_id: req.userId,
+    });
+
+    const user = await User.findByPk(req.userId);
+    const formattedDate = format(hourStart, "d 'de' MMMM', às' H:mm'h'", {
+      locale: pt,
+    });
+
+    await Notification.create({
+      content: `Novo agendamento de ${user.name} para dia ${formattedDate}`,
+      user: provider_id,
     });
 
     return res.json(appointment);
