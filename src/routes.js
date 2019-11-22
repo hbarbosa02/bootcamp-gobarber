@@ -8,6 +8,7 @@ import UserController from './app/controllers/userController';
 import FileController from './app/controllers/fileController';
 import SessionController from './app/controllers/sessionController';
 import ProviderController from './app/controllers/providerController';
+import ScheduleController from './app/controllers/scheduleController';
 import AppoitmentController from './app/controllers/appoitmentController';
 
 const routes = new Router();
@@ -24,6 +25,8 @@ routes.get('/providers', ProviderController.index);
 
 routes.get('/appointments', AppoitmentController.index);
 routes.post('/appointments', AppoitmentController.store);
+
+routes.get('/schedule', ScheduleController.index);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
