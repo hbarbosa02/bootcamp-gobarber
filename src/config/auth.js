@@ -1,4 +1,4 @@
-module.exports = {
-  jwtKey: '8538607221f2e42284acf599214cfa34',
+export default {
+  jwtKey: process.env.JWT_KEY,
   expiration: '7d',
 };

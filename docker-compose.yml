@@ -31,6 +31,26 @@ services:
     depends_on:
       - postgres
 
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./volumes/mongodb:/var/lib/mongodb
+    networks:
+      - service-network
+
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - 6379:6379
+    networks:
+      - service-network
+
 networks:
   service-network:
     driver: bridge
